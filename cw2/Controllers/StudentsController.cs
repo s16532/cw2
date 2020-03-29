@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using cw2.Models.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,9 +12,9 @@ namespace cw2.Controllers
     [Route("api/students")]
     public class StudentsController : ControllerBase
     {
-        public string GetStudent()
+        public string GetStudent(string orderBy)
         {
-            return "Kowalski, Malewski, Andrzejewski";
+            return "Kowalski, Malewski, Andrzejewski sortowanie={orderBy}";
         }
 
         [HttpGet("{id}")]
@@ -29,6 +30,15 @@ namespace cw2.Controllers
             }
 
             return NotFound("Nie znaleziono studenta");
+        }
+
+        [HttpPost]
+        public  IActionResult CreateStudent(Student student)
+        {
+            //add to database
+            //generating index number
+            student.IndexNumber = $"s{new Random().Next(1, 20000)}";
+            return Ok(student);
         }
     }
 }
